@@ -1,19 +1,19 @@
 ﻿using Discord.WebSocket;
 using Discord;
-using SwizzBotDisco.Config;
 
 namespace SwizzBotDisco.Services
 {
-    public class DiscordBotService
+    public static class DiscordBotService
     {
-        private static DiscordSocketClient _client;
+        private static DiscordSocketClient? _client;
 
         public static async Task StartServiceAsync()
         {
+            string? token = Environment.GetEnvironmentVariable("BOT_TOKEN");
+            
             _client = new DiscordSocketClient();
             _client.Log += Log;
-
-            string token = await JSONReader.GetTokenAsync();
+            
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();

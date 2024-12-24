@@ -76,5 +76,6 @@ cypress/videos
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
-#bot config file
+#additional json to ignore
 config.json
+launchSettings.json
