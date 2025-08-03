@@ -17,8 +17,6 @@ namespace SwizzBotDisco.Services
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-
-            await Task.Delay(-1);
         }
 
         private static Task Log(LogMessage msg) //Create logging service later and move
