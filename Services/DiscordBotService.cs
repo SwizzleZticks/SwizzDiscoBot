@@ -18,6 +18,8 @@ namespace SwizzBotDisco.Services
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
         }
+        
+        public static DiscordSocketClient Client => _client;
 
         private static Task Log(LogMessage msg) //Create logging service later and move
         {
