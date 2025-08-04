@@ -36,5 +36,4 @@ public class TrollService
 
         await channel.SendMessageAsync(message);
     }
-
 }
