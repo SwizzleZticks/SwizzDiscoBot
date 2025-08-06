@@ -24,7 +24,8 @@ namespace SwizzBotDisco
                 return;
             }
 
-            var trollService = new TrollService(
+            /*
+             var trollService = new TrollService(
                 DiscordBotService.Client,
                 396069316857954307,
                 1401734838406348817,
@@ -52,6 +53,7 @@ namespace SwizzBotDisco
                     await Task.Delay(TimeSpan.FromHours(1));
                 }
             });
+            */
 
             await Task.Delay(-1); // keep the app running
         }
