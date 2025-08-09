@@ -24,7 +24,7 @@ namespace SwizzBotDisco.Games.HorseRacing.Models
         {
             for (int i = 0; i < _settings.HorseCount; i++)
             {
-                Horses.Add(new Horse());
+                Horses.Add(new Horse(_settings));
             }
         }
     }

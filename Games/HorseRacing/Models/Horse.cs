@@ -30,8 +30,10 @@ public class Horse
         set => _fatigue = value;
     }
     // Add one to each max value to keep it true
-    public Horse()
+    public Horse(RaceSettings settings)
     {
+        _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
         _name = HorseNameGenerator.GetRandomName();
         _speed = _random.Next(_settings.MinSpeed, _settings.MaxSpeed + 1); 
         _stamina = _random.Next(_settings.MinStamina, _settings.MaxStamina + 1);
