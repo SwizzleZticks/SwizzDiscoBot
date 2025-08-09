@@ -13,7 +13,8 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
             var ubService = new UnbelievaBoatService();
             int cash = await ubService.GetBalanceAsync(Context.Guild.Id, Context.User.Id);
 
-            await FollowupAsync($"Your balance: {cash}", ephemeral: true);
+            await RespondWithModalAsync<BettingModal>($"bet:{horseNumber}:{Context.User.Id} money: {cash}");
+
         }
     }
 }
