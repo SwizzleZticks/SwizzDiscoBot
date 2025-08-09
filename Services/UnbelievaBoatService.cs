@@ -15,8 +15,7 @@ namespace SwizzBotDisco.Services
                                             ?? throw new InvalidOperationException("Missing Unbelievaboat key");
         public UnbelievaBoatService()
         {
-            _client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue(_token);
+            _client.DefaultRequestHeaders.Add("Authorization", _token);
         }
 
 
