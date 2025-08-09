@@ -1,17 +1,13 @@
 ﻿using Discord;
 using Discord.Interactions;
 using SwizzBotDisco.Games.HorseRacing.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwizzBotDisco.Games.HorseRacing.Interactions.SlashCommands
 {
     public class StartRace : InteractionModuleBase<SocketInteractionContext>
     {
-        [SlashCommand("start-race", "Begin betting for race")]
+        [EnabledInDm(false)]
+        [SlashCommand("start-race", "Begin betting phase for horse race")]
         public async Task HandleStartRaceCommand()
         {
             int index = 1;

@@ -6,8 +6,6 @@ using System.Reflection;
 namespace SwizzBotDisco
 {
     // 396069316857954307  - GUILD ID
-    // 1287966630738919464 - CHANNEL ID
-    // 305044835331735553  - MELLOW ID
     internal class Program
     {
         public static async Task Main()
