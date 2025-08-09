@@ -10,11 +10,7 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
         [ComponentInteraction("bethorse:*")]
         public async Task HandleBetHorseInput(int horseNumber)
         {
-            var ubService = new UnbelievaBoatService();
-            int cash = await ubService.GetBalanceAsync(Context.Guild.Id, Context.User.Id);
-
-            await RespondWithModalAsync<BettingModal>($"bet:{horseNumber}:{Context.User.Id} money: {cash}");
-
+            await RespondWithModalAsync<BettingModal>($"bet:{horseNumber}:{Context.User.Id}");
         }
     }
 }
