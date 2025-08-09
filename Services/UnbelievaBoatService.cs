@@ -21,7 +21,7 @@ namespace SwizzBotDisco.Services
 
         public async Task<int> GetBalanceAsync(ulong guildId, ulong userId)
         {
-            var response = await _client.GetAsync($"/guilds/{guildId}/users/{userId}");
+            var response = await _client.GetAsync($"guilds/{guildId}/users/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -45,7 +45,7 @@ namespace SwizzBotDisco.Services
             string userJson = JsonSerializer.Serialize(user);
             StringContent httpContent = new StringContent(userJson, System.Text.Encoding.UTF8, "application/json");
 
-            var response = await _client.PatchAsync($"/guilds/{guildId}/users/{userId}", httpContent);
+            var response = await _client.PatchAsync($"guilds/{guildId}/users/{userId}", httpContent);
 
             return response.IsSuccessStatusCode 
                 ? true 
