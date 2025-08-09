@@ -1,5 +1,7 @@
-﻿using Discord.WebSocket;
+﻿using Discord.Interactions;
+using Discord.WebSocket;
 using SwizzBotDisco.Services;
+using System.Reflection;
 
 namespace SwizzBotDisco
 {
@@ -11,51 +13,26 @@ namespace SwizzBotDisco
         public static async Task Main()
         {
             await DiscordBotService.StartServiceAsync();
+            var client = DiscordBotService.Client;
 
-            var nexusModsResponse = await NexusModsService.ValidateServiceAsync();
 
-            if (nexusModsResponse.IsSuccessStatusCode)
+            var service = new InteractionService(client);
+
+            await service.AddModulesAsync(Assembly.GetExecutingAssembly(), services: null);
+
+            client.InteractionCreated += async interaction =>
             {
-                Console.WriteLine("Valid Nexus API key!");
-            }
-            else
+                var ctx = new SocketInteractionContext(client, interaction);
+                await service.ExecuteCommandAsync(ctx, services: null);
+            };
+
+            client.Ready += async () =>
             {
-                Console.WriteLine($"API validation failed. Status: {nexusModsResponse.StatusCode}");
-                return;
-            }
+                ulong devGuildId = 396069316857954307;
+                await service.RegisterCommandsToGuildAsync(devGuildId);
+            };
 
-            /*
-             var trollService = new TrollService(
-                DiscordBotService.Client,
-                396069316857954307,
-                1401734838406348817,
-                305044835331735553
-            );
-
-            _ = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        var latestMod = await NexusModsService.GetLatestModAsync();
-
-                        if (latestMod != null)
-                        {
-                            await trollService.TrollMellowAsync(latestMod);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[ERROR] Troll loop failed: {ex.Message}");
-                    }
-
-                    await Task.Delay(TimeSpan.FromHours(1));
-                }
-            });
-            */
-
-            await Task.Delay(-1); // keep the app running
+            await Task.Delay(-1);
         }
     }
 }
