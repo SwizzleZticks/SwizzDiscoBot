@@ -10,8 +10,9 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.SlashCommands
         [SlashCommand("start-race", "Begin betting phase for horse race")]
         public async Task HandleStartRaceCommand()
         {
+            await DeferAsync();
+
             var race = new Race(new RaceSettings());
-            // Build a stable horseId map inside Race (e.g., race.HorsesById = new Dictionary<int,Horse>{ ... })
             var component = new ComponentBuilder();
             int horseId = 1;
             foreach (var h in race.Horses)

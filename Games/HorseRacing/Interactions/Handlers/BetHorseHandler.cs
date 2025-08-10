@@ -17,26 +17,36 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
         [ModalInteraction("bet:*:*:*")]
         public async Task HandleBetSubmit(ulong raceId, int horseId, ulong ownerId, BettingModal data)
         {
-            if (ownerId != Context.User.Id)
+            try
             {
-                await RespondAsync("This modal isn’t yours.", ephemeral: true);
-                return;
-            }
+                Console.WriteLine($"DEBUG: raceId={raceId}, horseId={horseId}, ownerId={ownerId}, user={Context.User.Id}");
 
-            if (!RaceManager.BettingOpen || !RaceManager.Races.TryGetValue(raceId, out var race))
+                if (ownerId != Context.User.Id)
+                {
+                    await RespondAsync("This modal isn’t yours.", ephemeral: true);
+                    return;
+                }
+
+                if (!RaceManager.BettingOpen || !RaceManager.Races.TryGetValue(raceId, out var race))
+                {
+                    await RespondAsync("Race ended or not found.", ephemeral: true);
+                    return;
+                }
+
+                if (horseId < 1 || horseId > race.Horses.Count)
+                {
+                    await RespondAsync("Horse not found.", ephemeral: true);
+                    return;
+                }
+
+                var horse = race.Horses[horseId - 1];
+                await RespondAsync($"Bet {data.Amount} on **{horse.Name}**", ephemeral: true);
+            }
+            catch (Exception ex)
             {
-                await RespondAsync("Race ended or not found.", ephemeral: true);
-                return;
+                Console.WriteLine($"ERROR in HandleBetSubmit: {ex}");
+                await RespondAsync("Internal error while placing bet.", ephemeral: true);
             }
-
-            if (horseId < 1 || horseId > race.Horses.Count)
-            {
-                await RespondAsync("Horse not found.", ephemeral: true);
-                return;
-            }
-
-            var horse = race.Horses[horseId - 1];
-            await RespondAsync($"Bet {data.Amount} on **{horse.Name}**", ephemeral: true);
         }
 
     }
