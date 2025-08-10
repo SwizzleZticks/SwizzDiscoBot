@@ -9,5 +9,6 @@ namespace SwizzBotDisco.Games.HorseRacing.Models
     public static class RaceManager
     {
         public static List<Horse> CurrentRace {  get; set; } = new List<Horse>();
+        public static ulong BetMessageId { get; set; }
     }
 }
