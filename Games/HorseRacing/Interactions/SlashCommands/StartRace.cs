@@ -10,22 +10,19 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.SlashCommands
         [SlashCommand("start-race", "Begin betting phase for horse race")]
         public async Task HandleStartRaceCommand()
         {
-            int index = 1;
-            Race newRace = new Race(new RaceSettings());
-            RaceManager.CurrentRace = newRace.Horses;
+            var race = new Race(new RaceSettings());
+            // Build a stable horseId map inside Race (e.g., race.HorsesById = new Dictionary<int,Horse>{ ... })
             var component = new ComponentBuilder();
-
-            foreach (Horse horse in RaceManager.CurrentRace) 
+            int horseId = 1;
+            foreach (var h in race.Horses)
             {
-                component.WithButton(
-                    $"{ horse.Name }",     // Label
-                    $"bethorse:{ index }", // Custom ID
-                    ButtonStyle.Primary    // Style
-                    );
-                index++;
+                race.Horses[horseId] = h;
+                component.WithButton(h.Name, $"bethorse:{horseId}", ButtonStyle.Primary);
+                horseId++;
             }
-
-            await RespondAsync("Place your bets!", components: component.Build());
+            var msg = await FollowupAsync("Place your bets!", components: component.Build());
+            RaceManager.Races[msg.Id] = race;
+            RaceManager.BettingOpen = true;
         }
         
     }

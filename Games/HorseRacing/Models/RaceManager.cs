@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace SwizzBotDisco.Games.HorseRacing.Models
 {
     public static class RaceManager
     {
-        public static List<Horse> CurrentRace {  get; set; } = new List<Horse>();
+        public static ConcurrentDictionary<ulong, Race> Races = new(); // raceId -> race
+        public static bool BettingOpen { get; set; }
     }
 }

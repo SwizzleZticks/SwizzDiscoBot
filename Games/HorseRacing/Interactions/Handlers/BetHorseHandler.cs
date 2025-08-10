@@ -14,19 +14,29 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
             await RespondWithModalAsync<BettingModal>($"bet:{horseNumber}:{Context.User.Id}");
         }
 
-        [ModalInteraction("bet:*:*")]
-        public async Task HandleBetSubmit(int horseNumber, ulong ownerId, BettingModal data)
+        [ModalInteraction("bet:*:*:*")]
+        public async Task HandleBetSubmit(ulong raceId, int horseId, ulong ownerId, BettingModal data)
         {
-            var horses = RaceManager.CurrentRace;
-            if (horses == null || horses.Count == 0 ||
-                horseNumber < 1 || horseNumber > horses.Count)
+            if (ownerId != Context.User.Id)
             {
-                await RespondAsync("Race ended or that horse is no longer available.", ephemeral: true);
+                await RespondAsync("This modal isn’t yours.", ephemeral: true);
                 return;
             }
 
-            var horse = horses[horseNumber - 1];
-            await RespondAsync($"Bet {data.Amount} on {horse.Name}", ephemeral: true);
+            if (!RaceManager.BettingOpen || !RaceManager.Races.TryGetValue(raceId, out var race))
+            {
+                await RespondAsync("Race ended or not found.", ephemeral: true);
+                return;
+            }
+
+            if (horseId < 1 || horseId > race.Horses.Count)
+            {
+                await RespondAsync("Horse not found.", ephemeral: true);
+                return;
+            }
+
+            var horse = race.Horses[horseId - 1];
+            await RespondAsync($"Bet {data.Amount} on **{horse.Name}**", ephemeral: true);
         }
 
     }
