@@ -1,5 +1,6 @@
 ﻿using Discord.Interactions;
 using Discord.WebSocket;
+using SwizzBotDisco.Games.HorseRacing.Interactions.SlashCommands;
 using SwizzBotDisco.Services;
 using System.Reflection;
 
@@ -12,31 +13,12 @@ namespace SwizzBotDisco
         {
             await DiscordBotService.StartServiceAsync();
             var client = DiscordBotService.Client;
-
-
             var service = new InteractionService(client);
 
-            client.Log += msg =>
-            {
-                Console.WriteLine($"[Client] {msg}");
-                return Task.CompletedTask;
-            };
+            client.Log += msg => { Console.WriteLine($"[Client] {msg}"); return Task.CompletedTask; };
+            service.Log += msg => { Console.WriteLine($"[InteractionService] {msg}"); return Task.CompletedTask; };
 
-            service.Log += msg =>
-            {
-                Console.WriteLine($"[InteractionService] {msg}");
-                return Task.CompletedTask;
-            };
-
-            service.SlashCommandExecuted += async (cmd, ctx, result) =>
-            {
-                if (!result.IsSuccess)
-                    Console.WriteLine($"[SlashCommand Error] {result.Error} | {result.ErrorReason}");
-            };
-
-
-
-            await service.AddModulesAsync(Assembly.GetExecutingAssembly(), services: null);
+            await service.AddModulesAsync(typeof(StartRace).Assembly, services: null);
 
             client.InteractionCreated += async interaction =>
             {
@@ -52,6 +34,7 @@ namespace SwizzBotDisco
 
             await Task.Delay(-1);
         }
+
     }
 }
 
