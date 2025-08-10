@@ -17,7 +17,7 @@ namespace SwizzBotDisco
             client.Log += msg => { Console.WriteLine($"[Client] {msg}"); return Task.CompletedTask; };
             service.Log += msg => { Console.WriteLine($"[InteractionService] {msg}"); return Task.CompletedTask; };
 
-            await service.AddModulesAsync(typeof(StartRace).Assembly, services: null);
+            await service.AddModulesAsync(Assembly.GetExecutingAssembly(), services: null);
 
             client.InteractionCreated += async interaction =>
             {
