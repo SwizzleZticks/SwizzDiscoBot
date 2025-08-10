@@ -17,7 +17,8 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
         [ModalInteraction("bet:*:*")]
         public async Task HandleBetSubmit(int horseNumber, ulong ownerId, BettingModal data, Race race)
         {
-            await RespondAsync($"Bet {data.Amount} on horse {RaceManager.CurrentRace[horseNumber - 1]}", ephemeral: true);
+            var horse = RaceManager.CurrentRace[horseNumber - 1];
+            await RespondAsync($"Bet {data.Amount} on horse {horse.Name}", ephemeral: true);
         }
     }
 }
