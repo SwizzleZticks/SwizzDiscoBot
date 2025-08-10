@@ -12,9 +12,10 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.SlashCommands
         {
             int index = 1;
             Race newRace = new Race(new RaceSettings());
+            RaceManager.CurrentRace = newRace.Horses;
             var component = new ComponentBuilder();
 
-            foreach (Horse horse in newRace.Horses) 
+            foreach (Horse horse in RaceManager.CurrentRace) 
             {
                 component.WithButton(
                     $"{ horse.Name }",     // Label
