@@ -1,5 +1,6 @@
 ﻿using Discord.Interactions;
 using SwizzBotDisco.Games.HorseRacing.Interactions.Modals;
+using SwizzBotDisco.Games.HorseRacing.Models;
 using SwizzBotDisco.Services;
 
 
@@ -14,9 +15,9 @@ namespace SwizzBotDisco.Games.HorseRacing.Interactions.Handlers
         }
 
         [ModalInteraction("bet:*:*")]
-        public async Task HandleBetSubmit(int horseNumber, ulong ownerId, BettingModal data)
+        public async Task HandleBetSubmit(int horseNumber, ulong ownerId, BettingModal data, Race race)
         {
-            await RespondAsync($"Bet {data.Amount} on horse {horseNumber}", ephemeral: true);
+            await RespondAsync($"Bet {data.Amount} on horse {race.Horses[horseNumber - 1]}", ephemeral: true);
         }
     }
 }
